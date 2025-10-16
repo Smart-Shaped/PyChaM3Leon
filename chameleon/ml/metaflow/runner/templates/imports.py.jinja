@@ -1,0 +1,12 @@
+from metaflow import FlowSpec, step{% if add_parameters %}, Parameter{% endif %}{% if add_include_files %}, IncludeFile{% endif %}{% if add_configs %}, Config{% endif %}
+
+{% if imports %}
+# extra imports definition
+{% for import in imports %}
+{% if (import.from and import.elements) %}
+from {{ import.from }} import {{ import.elements | join(', ') }}
+{% else %}
+import {{ import }}
+{% endif -%}
+{% endfor %}
+{% endif -%}

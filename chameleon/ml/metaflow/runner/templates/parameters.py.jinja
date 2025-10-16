@@ -1,0 +1,7 @@
+    {% if parameters %}
+    # parameters definition
+    {% for parameter in parameters %}
+    {{ parameter.variable_name }} = Parameter({{ parameter.object | join(', ') }})
+    {% endfor %}
+    {% endif -%}
+    

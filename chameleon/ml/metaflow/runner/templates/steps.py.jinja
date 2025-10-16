@@ -1,0 +1,27 @@
+    {% if steps %}
+    # inner steps definition
+    {% for step in steps %}
+    @step
+    {% for decorator in step.decorators %}
+    @{{ decorator.name }}{% if decorator.parameters %}({{ decorator.parameters | join(', ') }}){% endif %}
+
+    {% endfor %}
+    def {{ step.name }}(self{% if step.join_step %}, inputs{% endif %}):
+
+        # write your logic here
+        print("{{ step.name }} running")
+
+        {% if step.next %}
+        {% if step.multiple_next %}
+        self.next({{ step.next | join(', ') }})
+        {% else %}
+        self.next(self.{{ step.next }})
+        {% endif %}
+        {% else %}
+        {% if step.name == last_step %}
+        self.next(self.end)
+        {% endif %}
+        {% endif %}
+        
+    {% endfor %}
+    {% endif -%}
