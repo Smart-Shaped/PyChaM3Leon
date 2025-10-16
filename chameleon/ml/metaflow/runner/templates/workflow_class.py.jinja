@@ -1,0 +1,18 @@
+class {{ name | capitalize }}(FlowSpec):
+
+{% if parameters %}
+{{ parameters }}
+{% endif -%}
+{% if include_files %}
+{{ include_files }}
+{% endif -%}
+{% if configs %}
+{{ configs }}
+{% endif -%}
+{% if constructor %}
+{{ constructor }}
+{% endif -%}
+
+{{ steps }}
+if __name__ == "__main__":
+    {{ name | capitalize }}()

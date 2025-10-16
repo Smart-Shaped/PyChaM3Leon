@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"chameleon.ml.metaflow.runner" = ["templates/*.jinja"]
+
+[project]
+name = "pycham3leon"
+version = "1.0.0"
+requires-python = ">=3.9, <3.13"
+dependencies = [
+    "Jinja2==3.1.6",
+    "mlflow==3.2.0",
+    "psutil==7.0.0",
+    "metaflow==2.18.9",
+    "pyspark-client==4.0.0",
+    "pylint==3.3.8",
+    "chardet==5.2.0",
+]
+description = "Python version of ChaM3Leon framework"
+authors = [
+    {name = "Smart-Shaped Srl"}
+]
+license = { text = "Apache-2.0" }
+license-files = ["LICENSE"]
+readme = "README.md"
+keywords = ["chaM3Leon", "MLOps", "mlflow", "metaflow", "big data", "data science", "data engineering"]
+classifiers = [
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+[project.urls]
+"Homepage" = "https://www.smartshaped.com/servizio/ai-and-big-data"
+Repository = "https://github.com/Smart-Shaped/PyChaM3Leon"

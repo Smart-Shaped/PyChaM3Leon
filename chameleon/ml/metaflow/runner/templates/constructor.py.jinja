@@ -1,0 +1,6 @@
+    def __init__(self{% for param in constructor.parameters %}, {{ param.name }}{% if param.type%} : {{ param.type }}{% endif %}{% if param.default%} = {{ param.default }}{% endif %}{% endfor %}):
+        
+        # write your logic here
+        print("constructor running")
+    
+        super().__init__()

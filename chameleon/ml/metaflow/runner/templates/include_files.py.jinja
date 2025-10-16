@@ -1,0 +1,7 @@
+    {% if include_files %}
+    # include files definition
+    {% for include_file in include_files %}
+    {{ include_file.variable_name }} = IncludeFile({{ include_file.object | join(', ') }})
+    {% endfor %}
+    {% endif -%}
+    

@@ -1,0 +1,7 @@
+    {% if configs %}
+    # configs definition
+    {% for config in configs %}
+    {{ config.variable_name }} = Config({{ config.object | join(', ') }})
+    {% endfor %}
+    {% endif -%}
+    
