@@ -244,7 +244,7 @@ This project is licensed under the Apache-2.0 License — see the `LICENSE` file
 
 ## Publications
 
-Article link — [ChaM3Leon announcement](https://www.smartshaped.com/blog/cham3leon-new-python-library)
+Article link — [New Python library for ChaM3Leon](https://www.smartshaped.com/blog/cham3leon-new-python-library)
 
 ## Contacts
 
