@@ -5,7 +5,7 @@ ChaM3Leon is a Python library of helpers, templates and workflow components to b
 ## Features
 
 - **Declarative Workflow Generation**: Create Metaflow workflows using JSON configuration files and Jinja2 templates
-- **Unified Data Access Layer**: Abstract data source interactions with support for PostgreSQL, MinIO, Cassandra, and HDFS
+- **Unified Data Access Layer**: Abstract data source interactions with support for data sources like PostgreSQL, MinIO, Cassandra, and HDFS
 - **Spark Session Management**: Simplified remote Spark session lifecycle management with automatic cleanup
 - **MLflow Integration**: Streamlined experiment tracking, model logging, and autologging for PyTorch, TensorFlow, and scikit-learn
 - **Flexible Decorators**: Rich set of decorators for adding functionality to workflow steps without code changes
@@ -88,12 +88,12 @@ Or install from the repository for development:
 pip install --no-cache-dir git+https://github.com/Smart-Shaped/PyChaM3Leon.git@public
 ```
 
-
 Note: the package targets Python 3.9–3.12.
 
 ## Documentation
 
 For comprehensive documentation including:
+
 - Detailed architecture overview
 - Complete API reference for all components
 - Advanced configuration examples
@@ -101,8 +101,6 @@ For comprehensive documentation including:
 - Integration guides for Metaflow, MLflow, and Spark
 
 See [DOCUMENTATION.md](DOCUMENTATION.md).
-
-## License
 
 ## Configuration
 
@@ -166,6 +164,8 @@ PyChaM3Leon uses JSON configuration files to control workflow behavior. Configur
 
 ### Decorators
 
+Here is a list of some of the available decorators:
+
 - **@data_source**: Provides data access with automatic connection management
 - **@mlflow_setup**: Configures MLflow tracking and autologging
 - **@spark_session_step_wrapper**: Manages Spark session lifecycle for individual steps
@@ -187,11 +187,8 @@ Generate complete Metaflow workflows from JSON configurations:
 - Automatic import management
 - Parameter and configuration handling
 - Step generation with decorator support
-- Workflow graph construction
 
 For complete documentation on all features, configuration options, and usage patterns, see [DOCUMENTATION.md](DOCUMENTATION.md).
-
-
 
 This project is licensed under the Apache-2.0 License — see the `LICENSE` file for details.
 
@@ -202,10 +199,6 @@ Article link — [ChaM3Leon announcement](https://www.smartshaped.com/blog/cham3
 ## Contact
 
 Smart-Shaped Srl — [AI & Big Data service](https://www.smartshaped.com/servizio/ai-and-big-data)
-
-## Changelog
-
-See `CHANGELOG.md` (not present yet) — consider adding a changelog for releases and notable changes.
 
 ## Workflow Template Example
 
@@ -258,5 +251,4 @@ The package includes Jinja2-based templates to generate Metaflow workflows. Belo
 }
 ```
 
-This configuration generates a complete, executable Metaflow workflow with proper imports, parameters, and step definitions.
-
+This configuration generates a complete, executable Metaflow workflow with proper imports, parameters, and step definitions, ready to be populated with the user-specific data processing logic.

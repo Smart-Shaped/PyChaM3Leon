@@ -19,16 +19,16 @@
 
 ## Introduction
 
-PyChaM3Leon is a comprehensive Python library designed to streamline the development of reproducible MLOps pipelines. It integrates three powerful frameworks—Metaflow, MLflow, and Apache Spark—into a unified development experience. The library provides abstractions, templates, and utilities that enable data scientists and engineers to build scalable, production-ready machine learning workflows with minimal boilerplate code.
+PyChaM3Leon is a comprehensive Python library designed to streamline the development of reproducible MLOps pipelines. It integrates three powerful frameworks (Metaflow, MLflow, and Apache Spark) into a unified development experience. The library provides abstractions, templates, and utilities that enable data scientists and engineers to build scalable, production-ready machine learning workflows with minimal boilerplate code.
 
 ### Key Features
 
 - **Declarative Workflow Generation**: Create Metaflow workflows using JSON configuration files and Jinja2 templates
-- **Unified Data Access Layer**: Abstract data source interactions with support for PostgreSQL, MinIO, Cassandra, and HDFS
+- **Unified Data Access Layer**: Abstract data source interactions with support for data sources like PostgreSQL, MinIO, Cassandra, and HDFS
 - **Spark Session Management**: Simplified remote Spark session lifecycle management with automatic cleanup
 - **MLflow Integration**: Streamlined experiment tracking, model logging, and autologging for PyTorch, TensorFlow, and scikit-learn
 - **Flexible Decorators**: Rich set of decorators for adding functionality to workflow steps without code changes
-- **Type Safety**: Comprehensive exception hierarchy for clear error handling
+- **Configuration-Driven**: Behavior controlled through external configuration files for environment-agnostic deployments
 
 ### Target Python Versions
 
@@ -131,7 +131,7 @@ Provides connectivity to PostgreSQL databases with full support for both Spark D
 
 Enables interaction with MinIO object storage, compatible with S3 API.
 
-**Spark Mode**: Reads and writes data using Spark's S3A connector with support for multiple file formats
+**Spark Mode**: Reads and writes data using Spark's S3 connector with support for multiple file formats
 **Non-Spark Mode**: Uses Metaflow's S3 client for object operations
 
 **Capabilities**: Supports single object operations and batch operations for multiple objects
@@ -180,14 +180,8 @@ The `remote_spark_session` context manager ensures proper session lifecycle:
 - **Automatic Creation**: Session is created when entering the context
 - **Resource Cleanup**: Session is automatically stopped when exiting the context
 - **Exception Safety**: Cleanup occurs even if exceptions are raised
-
-#### Manual Management
-
-For scenarios requiring manual control, explicit session creation and closure functions are provided.
-
-### Spark Configuration
-
-Spark configuration is managed through JSON configuration files, specifying the remote cluster URL and application name. This approach keeps infrastructure details separate from code.
+- **Manual Management**: For scenarios requiring manual control, explicit session creation and closure functions are provided.
+- **Spark Configuration**: Spark configuration is managed through JSON configuration files, specifying the remote cluster URL and application name. This approach keeps infrastructure details separate from code.
 
 ---
 
@@ -238,10 +232,6 @@ Starts an MLflow run with configurable tags, nested run support, system metrics 
 #### Model Logging Decorator
 
 Automatically logs PyTorch models with inferred signatures and input examples. The decorator extracts a sample batch from the dataloader, performs a forward pass to infer the model signature, and logs the complete model artifact.
-
-**Batch Structure Support**: Handles tensors, dictionaries, lists, tuples, and dataclasses
-**Signature Inference**: Automatically determines input and output shapes and types
-**Example Preservation**: Saves input examples for model serving
 
 ---
 
@@ -395,7 +385,6 @@ The most complex template, generating all step definitions with their decorators
 **Step Detection**: Identifies the last step for automatic next step assignment
 **Decorator Processing**: Formats decorator parameters and arguments
 **Join Step Handling**: Adds input parameters to join steps
-**Branch Handling**: Supports multiple next steps for parallel execution
 **Next Step Logic**: Automatically connects steps in the workflow graph
 
 ### Template File Structure
@@ -408,7 +397,6 @@ The template system uses eight Jinja2 template files:
 - **parameters.py.jinja**: Parameter declarations template
 - **include_files.py.jinja**: IncludeFile declarations template
 - **configs.py.jinja**: Config declarations template
-- **constructor.py.jinja**: Constructor method template
 - **steps.py.jinja**: Step definitions template
 
 ### Configuration Parser
@@ -445,6 +433,7 @@ All configuration files use JSON format with a hierarchical structure.
 Spark configuration resides in a `spark` section:
 
 **Required Fields**:
+
 - `remote_url`: The URL of the Spark cluster
 - `app_name`: The application name for Spark sessions
 
@@ -453,6 +442,7 @@ Spark configuration resides in a `spark` section:
 Data sources are configured in a `data_sources` section organized by source type and connection ID:
 
 **Structure Hierarchy**:
+
 1. Data sources section
 2. Source type (postgres, minio, cassandra, hdfs)
 3. Connection ID (user-defined identifier)
@@ -463,11 +453,13 @@ Data sources are configured in a `data_sources` section organized by source type
 Each query has a unique query ID and contains parameters specific to the operation and data source type.
 
 **PostgreSQL Query Parameters**:
+
 - `dbtable`: Table name or SQL query
 - `fetchsize`: Number of rows to fetch per round trip
 - Additional JDBC or Pandas options
 
 **MinIO Query Parameters**:
+
 - `format`: Data format (parquet, csv, json, etc.)
 - `bucket`: S3 bucket name
 - `key` or `keys`: Object key(s)
@@ -479,6 +471,7 @@ Each query has a unique query ID and contains parameters specific to the operati
 Workflow templates use a structured JSON format:
 
 **Top-Level Sections**:
+
 - `imports`: List of import statements
 - `class`: Workflow class definition
 
@@ -486,6 +479,7 @@ Workflow templates use a structured JSON format:
 Can be simple strings for standard imports or objects with `from` and `elements` for selective imports.
 
 **Class Structure**:
+
 - `name`: Workflow class name
 - `parameters`: List of parameter definitions (optional)
 - `include_files`: List of included files (optional)
@@ -494,15 +488,18 @@ Can be simple strings for standard imports or objects with `from` and `elements`
 - `steps`: List of step definitions (required)
 
 **Parameter Definition**:
+
 - `variable_name`: Parameter variable name
 - `object`: Dictionary of parameter properties (type, default, help, etc.)
 
 **Step Definition**:
+
 - `name`: Step name
 - `decorators`: List of decorator specifications (optional)
 - `next`: Next step name or list of next steps (optional)
 
 **Decorator Specification**:
+
 - `name`: Decorator name
 - `parameters`: Dictionary of decorator parameters (optional)
 
