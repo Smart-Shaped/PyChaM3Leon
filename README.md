@@ -242,11 +242,11 @@ For complete documentation on all features, configuration options, and usage pat
 
 This project is licensed under the Apache-2.0 License — see the `LICENSE` file for details.
 
-## Publication
+## Publications
 
 Article link — [ChaM3Leon announcement](https://www.smartshaped.com/blog/cham3leon-new-python-library)
 
-## Contact
+## Contacts
 
 Smart-Shaped Srl — [AI & Big Data service](https://www.smartshaped.com/servizio/ai-and-big-data)
 
