@@ -1,8 +1,8 @@
 from metaflow import user_step_decorator
 
-from chameleon.ml.exceptions import DataSourceException
-from chameleon.ml.data_sources.abstraction import DataSourceFactory
-from chameleon.ml.data_sources.implementations import *
+from chameleon.ml_runner.exceptions import DataSourceException
+from chameleon.ml_runner.data_sources.abstraction import DataSourceFactory
+from chameleon.ml_runner.data_sources.implementations import *
 
 
 @user_step_decorator

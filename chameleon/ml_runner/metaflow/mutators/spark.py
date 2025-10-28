@@ -1,7 +1,7 @@
 from metaflow import FlowMutator
 
-from chameleon.ml.metaflow.decorators.spark import spark_session_step_wrapper, convert_dataframes_decorator
-from chameleon.ml.exceptions import SparkException
+from chameleon.ml_runner.metaflow.decorators.spark import spark_session_step_wrapper, convert_dataframes_decorator
+from chameleon.ml_runner.exceptions import SparkException
 
 
 class SparkMutator(FlowMutator):

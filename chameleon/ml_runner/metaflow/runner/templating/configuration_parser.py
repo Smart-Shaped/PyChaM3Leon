@@ -1,7 +1,7 @@
 import os
 import json
 from pathlib import Path
-from chameleon.ml.metaflow.runner.models.metaflow_template import MetaflowTemplate
+from chameleon.ml_runner.metaflow.runner.models.metaflow_template import MetaflowTemplate
 
 
 def _read_config_file(path: str) -> dict:

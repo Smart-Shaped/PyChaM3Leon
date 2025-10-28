@@ -1,7 +1,7 @@
 from metaflow import user_step_decorator
 
-from chameleon.ml.spark.sessions import remote_spark_session, create_spark_session
-from chameleon.ml.exceptions import MetaflowException
+from chameleon.ml_runner.spark.sessions import remote_spark_session, create_spark_session
+from chameleon.ml_runner.exceptions import MetaflowException
 
 
 @user_step_decorator

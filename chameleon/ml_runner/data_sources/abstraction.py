@@ -4,7 +4,7 @@ from pandas import DataFrame as PandasDataFrame
 from pyspark.sql.connect.dataframe import DataFrame as PySparkDataFrame
 from pyspark.sql.connect.session import SparkSession
 
-from chameleon.ml.exceptions import DataSourceException
+from chameleon.ml_runner.exceptions import DataSourceException
 
 
 class DataSource(ABC):
