@@ -90,6 +90,56 @@ pip install --no-cache-dir git+https://github.com/Smart-Shaped/PyChaM3Leon.git@p
 
 Note: the package targets Python 3.9–3.12.
 
+## Package Structure
+
+```bash
+chameleon/
+├── __init__.py
+└── ml_runner/
+    ├── __init__.py
+    ├── data_sources/
+    │   ├── __init__.py
+    │   ├── abstraction.py
+    │   └── implementations.py
+    ├── exceptions.py
+    ├── metaflow/
+    │   ├── __init__.py
+    │   ├── base_flows/
+    │   ├── decorators/
+    │   ├── mutators/
+    │   └── runner/
+    ├── mlflow/
+    │   ├── __init__.py
+    │   └── utils.py
+    └── spark/
+        ├── __init__.py
+        └── sessions.py
+```
+
+### Package Descriptions
+
+- **chameleon**: Root package of the library.
+  
+- **ml_runner**: Core module containing all the MLOps components.
+  
+  - **data_sources**: Abstractions and implementations for various data sources.
+    - `abstraction.py`: Defines base classes and interfaces for data source connections.
+    - `implementations.py`: Concrete implementations for PostgreSQL, MinIO, Cassandra, and HDFS.
+  
+  - **exceptions.py**: Custom exception classes for error handling across the library.
+  
+  - **metaflow**: Components for Metaflow integration and workflow management.
+    - **base_flows**: Base flow classes that can be extended for different workflow types.
+    - **decorators**: Function decorators to enhance workflow steps with additional capabilities.
+    - **mutators**: Metaflow mutators for modifying flow behavior at runtime.
+    - **runner**: Utilities for generating, executing, and managing workflows.
+  
+  - **mlflow**: MLflow integration components for experiment tracking and model management.
+    - `utils.py`: Utility functions for MLflow experiment tracking, model logging, and autologging.
+  
+  - **spark**: Apache Spark integration and session management.
+    - `sessions.py`: Utilities for creating, configuring, and managing Spark sessions.
+
 ## Documentation
 
 For comprehensive documentation including:
