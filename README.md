@@ -4,10 +4,75 @@ ChaM3Leon is a Python library of helpers, templates and workflow components to b
 
 ## Features
 
-- Metaflow templates and flow constructors (Jinja2 templates bundled in the package)
-- MLflow helper utilities for experiment and run management
-- Spark session helpers and mutators for reproducible environments
-- Additional integration with various data sources like MinIO and PostgreSQL
+- **Declarative Workflow Generation**: Create Metaflow workflows using JSON configuration files and Jinja2 templates
+- **Unified Data Access Layer**: Abstract data source interactions with support for PostgreSQL, MinIO, Cassandra, and HDFS
+- **Spark Session Management**: Simplified remote Spark session lifecycle management with automatic cleanup
+- **MLflow Integration**: Streamlined experiment tracking, model logging, and autologging for PyTorch, TensorFlow, and scikit-learn
+- **Flexible Decorators**: Rich set of decorators for adding functionality to workflow steps without code changes
+- **Configuration-Driven**: Behavior controlled through external configuration files for environment-agnostic deployments
+
+## Quick Start
+
+### Basic Workflow Generation
+
+Generate a Metaflow workflow from a JSON configuration:
+
+```python
+from chameleon.ml_runner.metaflow.runner.templating.configuration_parser import generate_workflow
+from chameleon.ml_runner.metaflow.runner.templating.workflow_runner import run_workflow
+
+# Generate workflow from config
+workflow_path = generate_workflow('flow_config.json', 'workflows/')
+
+# Run the generated workflow
+run_workflow(workflow_path)
+```
+
+### Using Spark in Workflows
+
+Extend the SparkFlow base class for automatic Spark session management:
+
+```python
+from chameleon.ml_runner.metaflow.base_flows.spark import SparkFlow
+from metaflow import step
+
+class MySparkWorkflow(SparkFlow):
+    @step
+    def spark_processing(self):
+        # Spark session automatically available
+        df = self.spark.read.parquet("s3://bucket/data")
+        # Process data...
+        self.next(self.end)
+```
+
+### Data Source Integration
+
+Use the data source decorator for seamless data access:
+
+```python
+from chameleon.ml_runner.metaflow.base_flows.config import ConfigurableFlow
+from chameleon.ml_runner.metaflow.decorators.data_sources import data_source
+from metaflow import step
+
+class DataPipeline(ConfigurableFlow):
+    @step
+    @data_source(source_type="postgres", conn_id="my_db")
+    def extract_data(self):
+        # Access data via the connection
+        data = self.my_db.read(query_id="customer_query")
+        self.next(self.end)
+```
+
+## Architecture Overview
+
+The library is organized into four main modules:
+
+- **Data Sources** (`chameleon.ml_runner.data_sources`): Abstractions and implementations for PostgreSQL, MinIO, Cassandra, and HDFS
+- **Spark** (`chameleon.ml_runner.spark`): Session management and lifecycle utilities
+- **MLflow** (`chameleon.ml_runner.mlflow`): Experiment tracking and model management utilities
+- **Metaflow** (`chameleon.ml_runner.metaflow`): Base flows, decorators, mutators, and template system
+
+For detailed documentation, see [DOCUMENTATION.md](DOCUMENTATION.md).
 
 ## Installation
 
@@ -23,9 +88,110 @@ Or install from the repository for development:
 pip install --no-cache-dir git+https://github.com/Smart-Shaped/PyChaM3Leon.git@public
 ```
 
+
 Note: the package targets Python 3.9–3.12.
 
+## Documentation
+
+For comprehensive documentation including:
+- Detailed architecture overview
+- Complete API reference for all components
+- Advanced configuration examples
+- Usage patterns and best practices
+- Integration guides for Metaflow, MLflow, and Spark
+
+See [DOCUMENTATION.md](DOCUMENTATION.md).
+
 ## License
+
+## Configuration
+
+PyChaM3Leon uses JSON configuration files to control workflow behavior. Configuration files can include:
+
+### Spark Configuration
+
+```json
+{
+  "spark": {
+    "remote_url": "sc://spark-cluster:15002",
+    "app_name": "MySparkApp"
+  }
+}
+```
+
+### Data Source Configuration
+
+```json
+{
+  "data_sources": {
+    "postgres": {
+      "my_db": {
+        "host": "localhost",
+        "port": 5432,
+        "database": "mydb",
+        "username": "user",
+        "password": "pass",
+        "queries": {
+          "customer_query": {
+            "dbtable": "customers"
+          }
+        }
+      }
+    },
+    "minio": {
+      "my_storage": {
+        "host": "localhost",
+        "port": 9000,
+        "access_key": "minioadmin",
+        "secret_key": "minioadmin",
+        "queries": {
+          "parquet_data": {
+            "format": "parquet",
+            "bucket": "data-lake",
+            "key": "processed/data.parquet"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+## Key Components
+
+### Base Flows
+
+- **ConfigurableFlow**: Base class for workflows that accept configuration files
+- **SparkFlow**: Extends ConfigurableFlow with automatic Spark session management
+
+### Decorators
+
+- **@data_source**: Provides data access with automatic connection management
+- **@mlflow_setup**: Configures MLflow tracking and autologging
+- **@spark_session_step_wrapper**: Manages Spark session lifecycle for individual steps
+- **@trainer_fit**: Automates PyTorch model training with MLflow logging
+
+### Data Sources
+
+All data sources support both Spark and non-Spark operations:
+
+- **PostgreSQL**: JDBC/SQLAlchemy connectivity
+- **MinIO**: S3-compatible object storage
+- **Cassandra**: NoSQL database (placeholder)
+- **HDFS**: Hadoop distributed file system (placeholder)
+
+### Template System
+
+Generate complete Metaflow workflows from JSON configurations:
+
+- Automatic import management
+- Parameter and configuration handling
+- Step generation with decorator support
+- Workflow graph construction
+
+For complete documentation on all features, configuration options, and usage patterns, see [DOCUMENTATION.md](DOCUMENTATION.md).
+
+
 
 This project is licensed under the Apache-2.0 License — see the `LICENSE` file for details.
 
@@ -41,21 +207,17 @@ Smart-Shaped Srl — [AI & Big Data service](https://www.smartshaped.com/servizi
 
 See `CHANGELOG.md` (not present yet) — consider adding a changelog for releases and notable changes.
 
-## Templating JSON example
+## Workflow Template Example
 
-The package includes Jinja2-based templates to generate Metaflow workflows. Below is a minimal example of the JSON structure you can use as input for the templating engine. Save this as a JSON file (for example `flow_config.json`) and pass its content to the templating/constructor utilities in your code.
-
-Example `flow_config.json`:
+The package includes Jinja2-based templates to generate Metaflow workflows. Below is a minimal example of the JSON structure:
 
 ```json
 {
   "imports": [
     "mlflow",
     {
-      "from": "chameleon.ml.metaflow.decorators.data_sources",
-      "elements": [
-        "data_source"
-      ]
+      "from": "chameleon.ml_runner.metaflow.decorators.data_sources",
+      "elements": ["data_source"]
     }
   ],
   "class": {
@@ -77,14 +239,16 @@ Example `flow_config.json`:
           {
             "name": "data_source",
             "parameters": {
-              "source_type": "source_type_value",
-              "conn_id": "conn_id_value"
+              "source_type": "minio",
+              "conn_id": "my_storage"
             }
           }
-        ]
+        ],
+        "next": "process"
       },
       {
-        "name": "train"
+        "name": "process",
+        "next": "end"
       },
       {
         "name": "end"
@@ -94,9 +258,5 @@ Example `flow_config.json`:
 }
 ```
 
-Notes:
+This configuration generates a complete, executable Metaflow workflow with proper imports, parameters, and step definitions.
 
-- The exact fields required depend on which templating function you use from `chameleon.ml.runner.templates` — use the bundled templates under `chameleon/ml/runner/templates` as canonical examples.
-- Keep parameter names, step names and action identifiers consistent with the template placeholders you intend to fill.
-
-If you'd like, I can add a small example script that loads this JSON and renders one of the bundled templates — tell me which template to target and I will add it under `examples/`.
