@@ -4,8 +4,8 @@ from pandas import DataFrame as PandasDataFrame
 from metaflow.plugins.datatools.s3.s3 import S3Object
 from typing import List, Dict
 
-from chameleon.ml.exceptions import DataSourceException
-from chameleon.ml.data_sources.abstraction import DataSource, DataSourceFactory
+from chameleon.ml_runner.exceptions import DataSourceException
+from chameleon.ml_runner.data_sources.abstraction import DataSource, DataSourceFactory
 
 
 ALLOWED_WRITE_MODES = ["append", "overwrite", "ignore", "error", "errorifexists"]

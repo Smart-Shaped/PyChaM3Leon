@@ -1,6 +1,6 @@
 from pyspark.sql import SparkSession
 
-from chameleon.ml.exceptions import SparkException
+from chameleon.ml_runner.exceptions import SparkException
 
 
 APP_NAME_DEFAULT = "spark app"

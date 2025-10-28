@@ -1,5 +1,5 @@
-from chameleon.ml.metaflow.mutators.spark import SparkMutator
-from chameleon.ml.metaflow.base_flows.config import ConfigurableFlow
+from chameleon.ml_runner.metaflow.mutators.spark import SparkMutator
+from chameleon.ml_runner.metaflow.base_flows.config import ConfigurableFlow
 
 
 @SparkMutator
