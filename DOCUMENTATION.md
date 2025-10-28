@@ -5,15 +5,14 @@
 1. [Introduction](#introduction)
 2. [Architecture Overview](#architecture-overview)
 3. [Core Components](#core-components)
-4. [Exception Handling](#exception-handling)
-5. [Data Sources](#data-sources)
-6. [Spark Integration](#spark-integration)
-7. [MLflow Integration](#mlflow-integration)
-8. [Metaflow Integration](#metaflow-integration)
-9. [Template System](#template-system)
-10. [Configuration Guide](#configuration-guide)
-11. [Usage Patterns](#usage-patterns)
-12. [Best Practices](#best-practices)
+4. [Data Sources](#data-sources)
+5. [Spark Integration](#spark-integration)
+6. [MLflow Integration](#mlflow-integration)
+7. [Metaflow Integration](#metaflow-integration)
+8. [Template System](#template-system)
+9. [Configuration Guide](#configuration-guide)
+10. [Usage Patterns](#usage-patterns)
+11. [Best Practices](#best-practices)
 
 ---
 
